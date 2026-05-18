@@ -9,11 +9,11 @@ import string
 import math
 import sqlite3
 
-# ========= DATABASE =========
 conn = sqlite3.connect("game.db", check_same_thread=False)
 cursor = conn.cursor()
 
 def init_db():
+    # TABLE PROFILES (IMPORTANT)
     cursor.execute("""
     CREATE TABLE IF NOT EXISTS profiles (
         user_id INTEGER PRIMARY KEY,
@@ -23,9 +23,18 @@ def init_db():
     )
     """)
 
+    # TABLE FRIENDS
+    cursor.execute("""
+    CREATE TABLE IF NOT EXISTS friends (
+        user_id INTEGER,
+        friend_id INTEGER
+    )
+    """)
+
     conn.commit()
 
 init_db()
+
 os.makedirs("profiles", exist_ok=True)
 
 from unidecode import unidecode
@@ -169,7 +178,7 @@ def remove_friend(user1, user2):
 
 
 
-cursor.execute("DELETE FROM profiles")
+cursor.execute("DELETE FROM profiles WHERE user_id IS NOT NULL")
 conn.commit()
 
 cursor.execute("""
