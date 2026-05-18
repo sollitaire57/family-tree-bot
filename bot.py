@@ -7,6 +7,20 @@ import time
 import json
 import string
 import math
+import sqlite3
+
+conn = sqlite3.connect("game.db", check_same_thread=False)
+cursor = conn.cursor()
+
+cursor.execute("""
+CREATE TABLE IF NOT EXISTS profiles (
+    user_id INTEGER PRIMARY KEY,
+    name TEXT,
+    balance INTEGER DEFAULT 0
+)
+""")
+
+conn.commit()
 
 os.makedirs("profiles", exist_ok=True)
 
