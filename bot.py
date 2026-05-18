@@ -9,19 +9,23 @@ import string
 import math
 import sqlite3
 
+# ========= DATABASE =========
 conn = sqlite3.connect("game.db", check_same_thread=False)
 cursor = conn.cursor()
 
-cursor.execute("""
-CREATE TABLE IF NOT EXISTS profiles (
-    user_id INTEGER PRIMARY KEY,
-    name TEXT,
-    balance INTEGER DEFAULT 0
-)
-""")
+def init_db():
+    cursor.execute("""
+    CREATE TABLE IF NOT EXISTS profiles (
+        user_id INTEGER PRIMARY KEY,
+        money INTEGER DEFAULT 0,
+        xp INTEGER DEFAULT 0,
+        level INTEGER DEFAULT 1
+    )
+    """)
 
-conn.commit()
+    conn.commit()
 
+init_db()
 os.makedirs("profiles", exist_ok=True)
 
 from unidecode import unidecode
